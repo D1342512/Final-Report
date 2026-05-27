@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}店長控制台 - ShiftMaster Pro{% endblock %}
+
+{% block content %}
+<header style="margin-bottom: 3rem;">
+    <h1>你好, {{ current_user.name }} (店長)</h1>
+    <p style="color: var(--text-muted);">歡迎查看今日營運概況。</p>
+</header>
+
+<div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+    <div class="stat-card" style="background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; border-left: 5px solid var(--accent);">
+        <span style="color: var(--text-muted); font-size: 0.875rem;">待處理請假</span>
+        <div style="font-size: 2rem; font-weight: 700; margin-top: 0.5rem;">{{ pending_count }} 件</div>
+        <a href="{{ url_for('leave.admin_leaves') }}" style="color: var(--accent); font-size: 0.875rem; text-decoration: none; display: block; margin-top: 0.5rem;">立即審核 &rarr;</a>
+    </div>
+    <div class="stat-card" style="background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; border-left: 5px solid var(--primary-color);">
+        <span style="color: var(--text-muted); font-size: 0.875rem;">班表草稿</span>
+        <div style="font-size: 2rem; font-weight: 700; margin-top: 0.5rem;">{{ draft_count }} 份</div>
+        <a href="{{ url_for('scheduler.index') }}" style="color: var(--primary-color); font-size: 0.875rem; text-decoration: none; display: block; margin-top: 0.5rem;">開啟智慧排班 &rarr;</a>
+    </div>
+    <div class="stat-card" style="background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; border-left: 5px solid #f59e0b;">
+        <span style="color: var(--text-muted); font-size: 0.875rem;">總員工數</span>
+        <div style="font-size: 2rem; font-weight: 700; margin-top: 0.5rem;">{{ employee_count }} 位</div>
+    </div>
+</div>
+
+<div class="quick-actions" style="background: #1e293b; padding: 2rem; border-radius: 1rem;">
+    <h3>常用功能</h3>
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <a href="{{ url_for('scheduler.index') }}" class="btn">發起自動排班</a>
+        <a href="{{ url_for('leave.admin_leaves') }}" class="btn" style="background: var(--accent);">管理請假申請</a>
+        <a href="{{ url_for('auth.logout') }}" class="btn" style="background: #ef4444;">登出系統</a>
+    </div>
+</div>
+{% endblock %}

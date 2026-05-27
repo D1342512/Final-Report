@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}首頁 - ShiftMaster Pro{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>一鍵搞定複雜排班</h1>
+    <p>結合智慧演算與員工請假整合，讓您的商家運作更高效、更專業。</p>
+    <div class="cta-group">
+        <a href="{{ url_for('scheduler.index') }}" class="btn">開始自動排班</a>
+        <a href="{{ url_for('leave.apply_leave') }}" class="btn" style="background: var(--accent); margin-left: 1rem;">我要請假</a>
+    </div>
+</section>
+
+<div class="features-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
+    <div class="card" style="background: var(--card-bg); padding: 2rem; border-radius: 1rem; border: 1px solid #334155;">
+        <h3 style="color: var(--accent);">智慧演算</h3>
+        <p>根據人力需求自動分配最優班表。</p>
+    </div>
+    <div class="card" style="background: var(--card-bg); padding: 2rem; border-radius: 1rem; border: 1px solid #334155;">
+        <h3 style="color: var(--primary-color);">請假整合</h3>
+        <p>即時串接員工請假申請，自動避開衝突。</p>
+    </div>
+    <div class="card" style="background: var(--card-bg); padding: 2rem; border-radius: 1rem; border: 1px solid #334155;">
+        <h3 style="color: #f59e0b;">缺工提醒</h3>
+        <p>第一時間發現人力缺口，維護服務品質。</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}智慧排班 - ShiftMaster Pro{% endblock %}
+
+{% block content %}
+<header style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1>智慧自動排班</h1>
+        <p style="color: var(--text-muted);">一鍵生成符合人力需求且避開衝突的班表。</p>
+    </div>
+    <form action="{{ url_for('scheduler.run_scheduler') }}" method="POST">
+        <button type="submit" class="btn" style="padding: 1rem 2rem; font-size: 1.125rem;">立即執行演算 &raquo;</button>
+    </form>
+</header>
+
+<section>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3>當前草稿班表 ({{ drafts|length }} 筆)</h3>
+        {% if drafts %}
+            <form action="{{ url_for('scheduler.publish_schedule') }}" method="POST">
+                <button type="submit" class="btn" style="background: var(--accent);">發布至正式班表</button>
+            </form>
+        {% endif %}
+    </div>
+
+    {% if drafts %}
+        <div style="background: var(--card-bg); border-radius: 1rem; border: 1px solid #334155; overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead style="background: rgba(255,255,255,0.05);">
+                    <tr>
+                        <th style="padding: 1rem; text-align: left;">員工姓名</th>
+                        <th style="padding: 1rem; text-align: left;">開始日期/時間</th>
+                        <th style="padding: 1rem; text-align: left;">結束時間</th>
+                        <th style="padding: 1rem; text-align: left;">狀態</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shift in drafts %}
+                        <tr style="border-top: 1px solid #334155;">
+                            <td style="padding: 1rem;">{{ shift.assigned_employee.name }}</td>
+                            <td style="padding: 1rem;">{{ shift.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td style="padding: 1rem;">{{ shift.end_time.strftime('%H:%M') }}</td>
+                            <td style="padding: 1rem;"><span style="color: #f59e0b;">草稿</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 5rem; background: var(--card-bg); border-radius: 1rem; border: 1px dashed #334155;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🗓️</div>
+            <p style="color: var(--text-muted);">目前沒有草稿班表，請點擊右上方按鈕開始演算。</p>
+        </div>
+    {% endif %}
+</section>
+
+<section style="margin-top: 4rem;">
+    <h3 style="margin-bottom: 1.5rem;">現有員工 ({{ employees|length }})</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        {% for emp in employees %}
+            <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.875rem;">
+                {{ emp.name }} ({{ emp.skill_type }})
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
